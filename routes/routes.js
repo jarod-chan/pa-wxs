@@ -62,7 +62,7 @@ exports.bind=function(app){
 					plan.state='SAVED';
 				};
 				plan.save(function(err){
-					res.redirect('/monthplan?gm=5');
+					res.send(true);
 				});
 			}
 		});
