@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/static/jquery.mobile-1.4.2.min.css">
+	<link rel="stylesheet" href="/static/app.css">
+	<script src="/static/jquery.js"></script>
+	<script src="/static/jquery.mobile-1.4.2.min.js"></script>
+
+
+</head>
+<body>
+<form method="post"></form>
+
+<div data-role="page">
+	<div data-role="header" data-position="fixed">
+		<a id='1btn_return' onclick="goTo('/monthplan?gm=5')" data-role="button" data-icon="arrow-l">返回</a>
+		<h1>工作执行情况</h1>
+	</div>
+
+	<div data-role="content">
+		<h3><%= plan.year %>年<%= plan.month %>月份<%= plan.department.name %></h3>
+		<p>状态:<%= plan.getState() %></p>
+
+		<% for(var i=0; i<mpitmes.length; i++) {%>
+		<div class="ui-body ui-body-a ui-corner-all pd_div">
+			<span class='sn_span ui-corner-all'><%=mpitmes[i].sn%></span>
+			<p>
+			<% if(mpitmes[i].context){ %>
+				计划：<%=mpitmes[i].context %>
+			<% } %>
+			<% if(mpitmes[i].context && mpitmes[i].summary){ %>   
+			</br>
+			<% } %>
+			<% if(mpitmes[i].summary){ %>
+				总结：<%=mpitmes[i].summary %>
+			<% } %>
+			</p>
+		</div>
+		<% } %>
+
+	</div>
+	
+	
+	
+
+	<div data-role="footer" data-position="fixed">
+	<% if(plan.state=='SUBMITTED'){ %>
+		<a id="btn_back" href="#" data-role="button" data-icon="delete">打回部门经理修改</a>
+	    <a id="btn_next" href="#" data-role="button" data-icon="check">通过当月计划</a>
+	<% } %>
+  	</div>
+
+</div>
+
+<script type="text/javascript">
+function goTo(page) {
+	//showLoading();
+	alert(1);
+	$.mobile.changePage(page, {
+		  transition: "slide",
+		  reverse :true
+		});
+}
+
+
+$(function(){
+	$("#btn_return").click(function(){
+		$.mobile.changePage("/monthplan?gm=5",
+			{allowSamePageTransition: true, 
+			 transition: "slide", 
+			 reloadPage: true });
+	});
+	$("#btn_back").click(function(){
+		var actionFrom=$("form");
+		var oldAction=actionFrom.attr("action");
+		actionFrom.attr("action","/monthplan/<%= plan.id %>/back").submit();
+	});
+	$("#btn_next").click(function(){
+		var actionFrom=$("form");
+		var oldAction=actionFrom.attr("action");
+		actionFrom.attr("action","/monthplan/<%= plan.id %>/next").submit();
+	});
+})
+</script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/static/jquery.mobile-1.4.2.min.css">
+	<link rel="stylesheet" href="/static/app.css">
+	<script src="/static/jquery.js"></script>
+	<script src="/static/jquery.mobile-1.4.2.min.js"></script>
+</head>
+<body>
+
+<div data-role="page">
+	<div data-role="header" data-position="fixed">
+		<h1>部门月度计划</h1>
+	</div>
+
+	<ul data-role="listview" data-inset="true">
+	<% for(var i=0; i<plans.length; i++) {%>
+		<li><a class="1btn_open" onClick="goTo('/monthplan/<%= plans[i].id %>')" id="<%= plans[i].id %>" href="#"><%= plans[i].year %>年<%= plans[i].month %>月份<%= plans[i].department.name %>工作执行情况【<%= plans[i].getState() %>】</a></li>
+	<% } %>
+	</ul>
+
+</div>
+
+<script type="text/javascript">
+function goTo(page) {
+	//showLoading();
+	$.mobile.changePage(page, {
+		  transition: "slide",
+		  reloadPage: true
+		});
+}
+
+function showLoading(){
+	$.mobile.loadingMessageTextVisible = true;
+	$.mobile.showPageLoadingMsg("a", "加载中..." );
+}
+
+$(function(){
+	$(".btn_open").click(function(){
+		$.mobile.changePage("/monthplan/"+$(this).attr("id"),
+			{allowSamePageTransition: true, 
+			 transition: "slide", 
+			 reloadPage: true });
+	});
+})
+</script>
+
+</body>
+</html>
