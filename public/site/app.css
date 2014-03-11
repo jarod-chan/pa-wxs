@@ -1,0 +1,42 @@
+/*all*/
+body { 
+	color: #000; 
+	font: 16px/1.6 "Microsoft Yahei", "Tahoma", "SimSun"; 
+}
+
+.ui-corner-all {
+    border-radius: 0.3125em;
+}
+
+.border_solid {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #DDDDDD;
+}
+
+.bg_green{
+	background-color: #55A56B;
+	color: #FFFFFF;
+}
+
+.bg_red {
+    background-color: #A40000;
+    color: #FFFFFF;
+}
+
+.ui-body-a {
+    border-style: solid;
+    border-width: 1px;
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+    color: #333333;
+    text-shadow: 0 1px 0 #F3F3F3;
+}
+
+.mg-t5{
+	margin-top: 5px;
+}
+
+.mg-t10{
+	margin-top: 10px;
+}

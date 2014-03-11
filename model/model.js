@@ -1,3 +1,5 @@
+var util = require("util");
+
 exports.bind=function (db,models){
 	
 	//人员
@@ -37,6 +39,13 @@ exports.bind=function (db,models){
 					FINISHED:'已完成'
                }
                return state_map[this.state];
+            },
+            get_fmt:function(){
+            	var info=util.format('%s年%s月%s工作执行情况',this.year,this.month,this.department.name); 
+            	return {
+            		id:this.id,
+            		fullname:info
+            	}
             }
         }
     });

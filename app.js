@@ -9,6 +9,7 @@
 	var app = express();
 
 	// all environments
+	app.set('json spaces',0);//返回的json格式
 	app.set('port', process.env.PORT || 3000);
 	app.set('views', __dirname + '/views');
 	var ejs = require('ejs');
@@ -33,7 +34,6 @@
 	}));
 
 	app.use(app.router);
-	
 
 
 	// 只用于开发环境
