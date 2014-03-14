@@ -1,7 +1,8 @@
 var monthplan=require("./monthplan.js")
 	,wechart=require("./wechat.js")
-	,pa_auth=require("./pa_auth.js")
-	,mp=require("./mp.js");
+	,paauth=require("./paauth.js")
+	,mppage=require("./mp/mppage.js")
+	,mpservice=require("./mp/mpservice.js");
 
 exports.bind=function(app){
 	app.get("/t.html",function(req,res){
@@ -12,6 +13,7 @@ exports.bind=function(app){
 	});
 	monthplan.bind(app);
 	wechart.bind(app);
-	pa_auth.bind(app);
-	mp.bind(app);
+	paauth.bind(app);
+	mppage.bind(app);
+	mpservice.bind(app);
 }

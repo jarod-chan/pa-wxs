@@ -51,6 +51,11 @@
 </section>
 
 
+<form>
+
+<input type="hidden" name="year" value="<%= plan.year %>">
+<input type="hidden" name="month" value="<%= plan.month %>">
+<input type="hidden" name="department_id" value="<%= plan.department.id %>">
 <section class="container">
 	<div class="grid">
 		<div class="col-1-1">
@@ -58,35 +63,27 @@
 				<h3><%= plan.year %>年<%= plan.month %>月
 				<br/><%= plan.department.name %>工作执行情况
 				</h3>
-				<p>状态:<%= plan.getState() %></p>
-				<% for(var i=0; i<mpitmes.length; i++) {%>
-				<div class="ui-corner-all ui-body-a mg-t5">
-					<p>
-					<span class="ui-corner-all sp_lable"><%=mpitmes[i].sn%></span>
-					<% if(mpitmes[i].context){ %>
-						计划：<%=mpitmes[i].context %>
-					<% } %>
-					<% if(mpitmes[i].context && mpitmes[i].summary){ %>   
-					</br>
-					<% } %>
-					<% if(mpitmes[i].summary){ %>
-						总结：<%=mpitmes[i].summary %>
-					<% } %>
-					</p>
-				</div>
-				<% } %>
 			</div>
 		</div>
-		<div class="col-1-1 text-center">
-		<% if(plan.state=='SUBMITTED'){ %>
-			<a id="btn_next" class="button button-green" >通过当月计划</a>
-			<a id="btn_back" class="button button-red" >打回部门经理修改</a>
-		<% } %>
+		<div class="col-1-1">
+			<div class="block">
+				<span class="ui-corner-all sp_lable">1</span>
+				<textarea class="ui-corner-all ui-body-a" style="width:98%;height:80px;" name="context"></textarea>
+				<span class="ui-corner-all sp_lable">2</span>
+				<textarea class="ui-corner-all ui-body-a" style="width:98%;height:80px;" name="context"></textarea>
+				<span class="ui-corner-all sp_lable">3</span>
+				<textarea class="ui-corner-all ui-body-a" style="width:98%;height:80px;" name="context"></textarea>
+			</div>
+		</div>
 		
+		<div class="col-1-1 text-center">
+			<a id="btn_commit" class="button button-green" >提交月计划</a>
 		</div>
 	</div>
 </section>
-<form method="post"></form>
+
+</form>
+
 <script type="text/javascript">
 	$(function(){
 		var del_result=function(result){
@@ -95,15 +92,9 @@
 				$("#pg_msg").show();
 			}
 		}
-		$("#btn_next").click(function(){
+		$("#btn_commit").click(function(){
 			$(".container").hide();
-			$("#pg_cover").show();
-			$.post("/mp/<%= plan.id %>/next",del_result);
-		});
-		$("#btn_back").click(function(){
-			$(".container").hide();
-			$("#pg_cover").show();
-			$.post("/mp/<%= plan.id %>/back",del_result);
+			$.post("/mp/save",$('form').serialize(),del_result);
 		});
 	});
 </script>

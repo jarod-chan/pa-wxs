@@ -20,6 +20,11 @@ exports.bind=function (db,models){
 		number:String,
 		gmange_id:Number
 	});
+
+	//月计划父类,原系统父类
+	models.Fmp=db.define("idrtaskbill",{
+		id:Number
+	});
 	
 	//月计划
 	models.Monthplan=db.define("idrmonthplanbill",{
@@ -44,7 +49,8 @@ exports.bind=function (db,models){
             	var info=util.format('%s年%s月%s工作执行情况',this.year,this.month,this.department.name); 
             	return {
             		id:this.id,
-            		fullname:info
+            		fullname:info,
+            		state:this.getState()
             	}
             }
         }
