@@ -154,48 +154,7 @@ exports.bind=function(app){
 	});
 
 
-	app.get('/mp/:id(\\d+)',function(req,res){
-		var monthplan_id=req.params.id; 
-
-		Plan=req.models.Monthplan;
-		MPitem=req.models.MPitem;
-		Plan.get(monthplan_id,function(err,plan){
-			if(plan){
-				MPitem.find({idrtaskbill_id:plan.id}
-					,'sn'
-					,function(err,mpitmes){
-						console.log('datas foud',mpitmes.length);
-						res.render("monthplan/mp",{
-							plan:plan,
-							mpitmes:mpitmes
-						});
-				})
-			}
-		});
-	});
-
-	app.post('/mp/:id(\\d+)/:action',function(req,res){
-		var monthplan_id=req.params.id;
-		var action=req.params.action; 
-
-		Plan=req.models.Monthplan;
-		Plan.get(monthplan_id,function(err,plan){
-			if(plan){
-				var action_info="";
-				if(action=="next"){
-					plan.state='EXECUTE';
-					action_info="已执行";
-				}else if (action=="back"){
-					plan.state='SAVED';
-					action_info="已打回";
-				};
-				plan.save(function(err){
-					var info=util.format('%s年%s月%s工作执行情况%s。',plan.year,plan.month,plan.department.name,action_info); 
-					res.send(msg.create(true,info));
-				});
-			}
-		});
-	});
+	
 
 
 }
