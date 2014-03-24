@@ -33,7 +33,13 @@
 	    }
 	}));
 
+	//this project namespace
+	app.use(function(req,res,next){
+		req.pa=req.pa||{};
+		next();
+	});
 	app.use(app.router);
+
 
 
 	// 只用于开发环境

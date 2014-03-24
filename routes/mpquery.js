@@ -3,7 +3,9 @@ var util = require("util");
 
 exports.bind=function(app){
 
-	app.get('/mp/all', function(req, res){ 		
+	
+
+	app.get('/mp/year', function(req, res){ 		
 		var person_id=req.query.gm;
 
 		if(!person_id){
@@ -73,10 +75,9 @@ exports.bind=function(app){
 					plan.state='SAVED';
 					action_info="已打回";
 				};
-				plan.state='SUBMITTED';
 				plan.save(function(err){
-					var info=util.format('%s年%s月%s工作执行情况%s',plan.year,plan.month,plan.department.name,action_info); 
-					res.render("common/msg",msg.create(true,info));
+					var info=util.format('%s年%s月%s工作执行情况%s。',plan.year,plan.month,plan.department.name,action_info); 
+					res.send(msg.create(true,info));
 				});
 			}
 		});
