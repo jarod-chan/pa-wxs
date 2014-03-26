@@ -10,7 +10,7 @@
     "ejs": "*",
     "mysql":"*",
     "orm":"*",
-    "node-wechat":"*",
-    "async":"*"
+    "async":"*",
+    "exdate":"*"
   }
 }

@@ -3,8 +3,8 @@
 	  , http = require('http')
 	  , path = require('path')
 	  , orm = require("orm")
-	  , model_def = require('./model/model.js')
-	  , routers_def = require('./routes/routes.js');
+	  , model_def = require('./model')
+	  , routers_def = require('./routes');
 
 	var app = express();
 
@@ -28,7 +28,7 @@
 	app.use(orm.express("mysql://root:0@localhost/pa_dev", {
 	    define: function (db, models, next) {
 	    	db.settings.set('instance.cache', false);
-	        model_def.bind(db,models);
+	        model_def(db,models);
 	        next();
 	    }
 	}));
@@ -56,7 +56,7 @@
 	}
 
 	//绑定路由控制
-	routers_def.bind(app);
+	routers_def(app);
 
 	http.createServer(app).listen(app.get('port'), function(){
 		console.log('pa-wxs '+app.get('env')+' server listening on port ' + app.get('port'));
