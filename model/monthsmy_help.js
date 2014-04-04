@@ -1,4 +1,5 @@
-var util=require('util');
+var util=require('util')
+	,numeral=require('numeral');
 
 exports.get_state=function () {
    var state_map={
@@ -17,4 +18,11 @@ exports.get_fmt=function(){
 		fullname:info,
 		state:this.get_state()
 	}
+}
+
+exports.get_fmt_workhour=function(){
+	if(this.workhour){
+		return numeral(this.workhour).format('0.0');
+	}
+	return ''; 
 }

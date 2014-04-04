@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+	<% include ../common/message.html %>
+	
+	<h3><%= smy.year %>年<%= smy.month %>月</h3>
+	<h3><%= smy.person.name %>月度工作小结</h3>
+	<p>状态：<%= smy.get_state()%></p>
+
+	<ul>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li">
+			<div class="width_100 float_left"><%=items[i].sn%>.<%=items[i].task%></div>
+	        <div class="width_50 float_left">性质：<%=items[i].worktype.worktype%></div>
+	    	<div class="width_50 float_left">用时：<%=items[i].get_fmt_workhour()%></div>
+		</li>
+		<%}%>
+	</ul>
+
+</body>
+</html>

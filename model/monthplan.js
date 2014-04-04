@@ -30,7 +30,7 @@ exports.bind=function (db,models){
 		idrtaskbill_id:Number,
 		sn:Number,
 		context:String,
-		summary:String,
+		summary:String
 	});
 
 

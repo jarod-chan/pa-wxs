@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+	
+	<% include ../common/message.html %>
+	
+	<h3><%= smy.year %>年<%= smy.month %>月</h3>
+	<h3><%= smy.person.name %>月度工作小结</h3>
+	<p>状态：<%= smy.get_state()%></p>
+
+	<ul>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li" data-sn="<%=items[i].sn%>" >
+			<div class="fix_right4px noshow div_delete"><a  class="btns_delete button button-red" data-id="<%=items[i].id%>">删除</a></div>
+			<div class="width_100 float_left"><%=items[i].sn%>.<%=items[i].task%></div>
+	        <div class="width_50 float_left">性质：<%=items[i].worktype.worktype%></div>
+	    	<div class="width_50 float_left">用时：<%=items[i].get_fmt_workhour()%></div>
+		</li>
+		<%}%>
+	</ul>
+
+	<div class="container "><button id="btn_add" class="large_button button-gray width_100 " >+</button></div>
+	
+	<div class="container mg_t20"><a id="btn_commit" class="button button-green" >提交</a></div>
+
+	<form method="post">
+		<input type="hidden" name="id" id="param_id" value="">
+	</form>
+
+<script type="text/javascript">
+	$(function(){
+		$(".context_li").swipeLeft(function(){
+			$(this).find(".div_delete").show();
+		});
+		$(".context_li").swipeRight(function(){
+			$(this).find(".div_delete").hide();
+		});
+
+		$(".context_li").click(function(){
+			window.open('/monthsmy/item?pa_id=<%=pa_id%>&sn='+$(this).data("sn"),'_self');
+		});
+		$(".btns_delete").click(function(event){
+			event.stopPropagation();//防止事件冒泡
+			$("#param_id").val($(this).data("id"));
+			$("form").attr('action','/monthsmy/item/delete?pa_id=<%=pa_id%>').submit();
+		});
+		$("#btn_add").click(function(){
+			window.open('/monthsmy/item?pa_id=<%=pa_id%>&sn=<%=items.length+1%>','_self');
+		});
+		$("#btn_commit").click(function(){
+			$("#param_id").val('<%=smy.id %>');
+			$("form").attr('action','/monthsmy/submit?pa_id=<%=pa_id%>').submit();
+		});
+	});
+</script>
+</body>
+</html>

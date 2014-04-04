@@ -12,6 +12,7 @@ exports.get_state=function () {
 }
 
 exports.get_fmt=function(){
+	console.log('%s',this);
 	var info=util.format('%s年%s月%s部门月度计划',this.year,this.month,this.department.name); 
 	return {
 		id:this.id,

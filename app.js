@@ -1,10 +1,12 @@
 	
 	var express = require('express')
+	  , flash = require('connect-flash')
 	  , http = require('http')
 	  , path = require('path')
 	  , orm = require("orm")
 	  , model_def = require('./model')
-	  , routers_def = require('./routes');
+	  , routers_def = require('./routes')
+	  , cache_pa = require('./infrastructure/cache');
 
 	var app = express();
 
@@ -21,11 +23,18 @@
 	app.use(express.json());
 	app.use(express.methodOverride());
 	app.use(express.cookieParser('secret'));
-	app.use(express.session());
+	app.use(express.session({key: 'sid'}));
+	app.use(flash());//flash 返回的是个数组
 	app.use('/static',express.static(path.join(__dirname, 'public')));
 
+	app.use(cache_pa());
+	//304缓存处理，静态资源缓存，但是页面不缓存
+	app.use(function(req, res, next) {
+	  req.headers['if-none-match'] = 'no-match-for-this';
+	  next();    
+	});
 	//数据库模型定义
-	app.use(orm.express("mysql://root:0@localhost/pa_dev", {
+	app.use(orm.express("mysql://root:0@localhost/pa_dev?debug=true&pool=true", {
 	    define: function (db, models, next) {
 	    	db.settings.set('instance.cache', false);
 	        model_def(db,models);

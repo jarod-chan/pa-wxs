@@ -1,75 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-</head>
-
-
-<body>
-
-<div data-role="page" id="item">
-	<form method="post"></form>
-	<script type="text/javascript">
-	$("#item").on('pagebeforeshow', function(){  
-	    $("#btn_back").click(function(){
-	     	$.mobile.loading('show');
-	     	$.post("/monthplan/<%= plan.id %>/back",function(result){
-	     		if(result){
-	     			goTo('/monthplan?gm=5',true);
-	     		}
-			});
-		});
-		$("#btn_next").click(function(){
-		 	$.mobile.loading('show');
-	     	$.post("/monthplan/<%= plan.id %>/next",function(result){
-	     		if(result){
-	     			goTo('/monthplan?gm=5',true);
-	     		}
-			});
-		});
-	  
-	}); 
-	</script>
-	<div data-role="header" data-position="fixed">
-		<a id='1btn_return' onclick="goTo('/monthplan?gm=5',true)" data-role="button" data-icon="arrow-l">返回</a>
-		<h1>工作执行情况</h1>
-	</div>
-
-	<div data-role="content">
-		<h3><%= plan.year %>年<%= plan.month %>月份<%= plan.department.name %></h3>
-		<p>状态:<%= plan.getState() %></p>
-
-		<% for(var i=0; i<mpitmes.length; i++) {%>
-		<div class="ui-body ui-body-a ui-corner-all pd_div">
-			<span class='sn_span ui-corner-all'><%=mpitmes[i].sn%></span>
-			<p>
-			<% if(mpitmes[i].context){ %>
-				计划：<%=mpitmes[i].context %>
-			<% } %>
-			<% if(mpitmes[i].context && mpitmes[i].summary){ %>   
-			</br>
-			<% } %>
-			<% if(mpitmes[i].summary){ %>
-				总结：<%=mpitmes[i].summary %>
-			<% } %>
-			</p>
+	<head>
+		<% include ../common/head.html %>
+	</head>
+	<body>
+	<form action="/monthplan/item/save?pa_id=<%=pa_id%>" method="post">
+		<input type="hidden" name="id" value="<%=item.id%>"/>
+		<input type="hidden" name="idrtaskbill_id" value="<%=item.idrtaskbill_id%>"/>
+		<input type="hidden" name="sn" value="<%=item.sn%>"/>
+		<div class="block mg_t10">
+			<label class="labfor"><%=item.sn%>.计划：</label>
+			<textarea class="width_100 height_120" maxlength="50" name="context"><%=item.context%></textarea>
 		</div>
-		<% } %>
-
-	</div>
-	
-	
-	
-
-	<div data-role="footer" data-position="fixed">
-	<% if(plan.state=='SUBMITTED'){ %>
-		<a id="btn_back" href="#" data-role="button" data-icon="delete">打回部门经理修改</a>
-	    <a id="btn_next" href="#" data-role="button" data-icon="check">通过当月计划</a>
-	<% } %>
-  	</div>
-
-</div>
-
-
-</body>
+		
+		<div class="container mg_t20">
+			<a id="btn_save" class="button button-green" >保存</a>
+			<a id="btn_cancel" class="button button-gray" >取消</a>
+		</div>
+	</form>   
+	<script type="text/javascript">
+		$(function(){
+			$("#btn_save").click(function(){
+				$('form').submit();
+			});
+			$("#btn_cancel").click(function(){
+				window.open('/monthplan/curr?pa_id=<%=pa_id%>','_self');
+			});
+		});
+	</script>
+	</body>
 </html>

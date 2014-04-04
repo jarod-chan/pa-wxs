@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+<form action="/monthsmy/item/save?pa_id=<%=pa_id%>" method="post">
+	<input type="hidden" name="id" value="<%=item.id%>"/>
+	<input type="hidden" name="monthchk_id" value="<%=item.monthchk_id%>"/>
+	<input type="hidden" name="sn" value="<%=item.sn%>"/>
+	<div class="block mg_t10">
+		<label class="labfor"><%=item.sn%>.工作内容：</label>
+		<textarea class="width_100 height_120" maxlength="50" name="task"><%=item.task%></textarea>
+	</div>
+	<div class="block mg_t10">
+		<label class="labfor">工作性质：</label>
+		<select name="worktype_id">
+			<% for(var i=0; i<worktypes.length; i++) {%>
+			<option value="<%=worktypes[i].id%>" <%if(item.worktype_id===worktypes[i].id){%> selected="true" <%}%> ><%=worktypes[i].worktype%></option>
+			<%}%>
+		</select>
+	</div>
+	<div class="block mg_t10">
+		<label class="labfor">用时：</label>
+		<input type="text" class="width_100px" name="workhour" value="<%=item.get_fmt_workhour()%>">
+	</div>
+	<div class="container mg_t20">
+		<a id="btn_save" class="button button-green" >保存</a>
+		<a id="btn_cancel" class="button button-gray" >取消</a>
+	</div>
+</form>    	
+
+
+<script type="text/javascript">
+	$(function(){
+		$("#btn_save").click(function(){
+			$('form').submit();
+		});
+		$("#btn_cancel").click(function(){
+			window.open('/monthsmy/curr?pa_id=<%=pa_id%>','_self');
+		});
+	});
+</script>
+</body>
+</html>

@@ -17,6 +17,14 @@ exports.bind=function(db,models){
         }
     });
     models.Monthsmy.hasOne("person",models.Person,{autoFetch : true});//多对一，自动加载
+	
+	//从表工作性质
+	models.Worktype=db.define('worktype',{
+		id:Number,
+		sn:Number,
+		worktype:String
+	});
+
 	//从表
 	models.Msitem=db.define("monthchkitem",{
 		id: Number,
@@ -26,12 +34,11 @@ exports.bind=function(db,models){
 		task:String,
 		workhour:Number,//浮点数
 		point:Number
+	},{
+		methods:{
+			get_fmt_workhour:help.get_fmt_workhour
+		}
 	});
 	models.Msitem.hasOne("worktype",models.Worktype,{autoFetch : true});//多对一，自动加载
-	//从表工作性质
-	models.Worktype=db.define('worktype',{
-		id:Number,
-		sn:Number,
-		worktype:String
-	});
+	
 }
