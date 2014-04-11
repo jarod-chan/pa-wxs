@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include ../common/head.html %>
+	</head>
+	<body>
+	<form action="/monthplan/item_smy/save?pa_id=<%=pa_id%>" method="post">
+		<input type="hidden" name="id" value="<%=item.id%>"/>
+		<input type="hidden" name="idrtaskbill_id" value="<%=item.idrtaskbill_id%>"/>
+		<input type="hidden" name="sn" value="<%=item.sn%>"/>
+		<%if(item.context){%>
+			<div class="block mg_t10">
+				<label class="labfor"><%=item.sn%>.计划：</label><%=item.context%></br>
+				<label class="labfor">总结：</label>
+				<textarea class="width_100 height_250" name="summary"><%=(item.summary?item.summary:'')%></textarea>
+			</div>
+		<%}else {%>
+			<div class="block mg_t10">
+				<label class="labfor"><%=item.sn%>.总结：</label>
+				<textarea class="width_100 height_250" name="summary"><%=(item.summary?item.summary:'')%></textarea>
+			</div>
+		<%}%>
+		
+		
+		<div class="container mg_t20">
+			<a id="btn_save" class="button button-green" >保存</a>
+			<a id="btn_cancel" class="button button-gray" >取消</a>
+		</div>
+	</form>   
+	<script type="text/javascript">
+		$(function(){
+			$("#btn_save").click(function(){
+				$('form').submit();
+			});
+			$("#btn_cancel").click(function(){
+				window.open('/monthplan/curr?pa_id=<%=pa_id%>','_self');
+			});
+		});
+	</script>
+	</body>
+</html>

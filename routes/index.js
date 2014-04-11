@@ -2,7 +2,8 @@ var rt = require('./common/result')
 	,auth = require('./auth/paauth')
 	,monthsmy=require('./monthsmy')
 	,monthplan=require('./monthplan')
-	,func=require('./func/func');
+	,func=require('./func/func')
+	,work=require('./work');
 
 
 module.exports = function(app) {
@@ -43,6 +44,47 @@ module.exports = function(app) {
 
 	app.post('/monthplan/submit',post_check('Y'));
 	app.post('/monthplan/submit',monthplan.submit);
+
+	//总结
+	app.get('/monthplan/item_smy',post_check('Y'));
+	app.get('/monthplan/item_smy',monthplan.item_smy);
+
+	app.post('/monthplan/item_smy/save',post_check('Y'));
+	app.post('/monthplan/item_smy/save',monthplan.save_item_smy);
+
+	app.post('/monthplan/item_smy/delete',post_check('Y'));
+	app.post('/monthplan/item_smy/delete',monthplan.delete_item_smy);
+
+	app.post('/monthplan/finish',post_check('Y'));
+	app.post('/monthplan/finish',monthplan.finish);
+
+
+	//分管副总和部门经理审批
+	app.get('/work/todo',post_check(['G','Y']));
+	app.get('/work/todo',work.todo);
+
+	app.get('/work/done',post_check(['G','Y']));
+	app.get('/work/done',work.done);
+
+	//部门经理审批
+	app.get('/monthsmy/:id/check',post_check(['Y']));
+	app.get('/monthsmy/:id/check',monthsmy.check);
+
+	app.post('/monthsmy/:id/next',post_check(['Y']));
+	app.post('/monthsmy/:id/next',monthsmy._next);
+
+	app.post('/monthsmy/:id/back',post_check(['Y']));
+	app.post('/monthsmy/:id/back',monthsmy._back);
+
+	app.get('/monthplan/:id/check',post_check(['G']));
+	app.get('/monthplan/:id/check',monthplan.check);
+
+	app.post('/monthplan/:id/next',post_check(['G']));
+	app.post('/monthplan/:id/next',monthplan._next);
+
+	app.post('/monthplan/:id/back',post_check(['G']));
+	app.post('/monthplan/:id/back',monthplan._back);
+
 
 };
 

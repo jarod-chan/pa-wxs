@@ -18,7 +18,13 @@ That.prototype.set=function(arg){
 	return this;	
 }
 
-exports.package=function(flag,arg){
+That.prototype.append=function(arg2){
+	if(!arg2) return this;
+	this.message=arg2;
+	return this;
+}
+
+exports.package=function(flag,arg,arg2){
 	var that=new That();
-	return that.flag(flag).set(arg);
+	return that.flag(flag).set(arg).append(arg2);
 }

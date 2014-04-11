@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+<form>
+	<% var templist=["优秀","良好","尽职","需改进","差"]; %>
+	
+	<h3><%= smy.year %>年<%= smy.month %>月</h3>
+	<h3><%= smy.person.name %>月度工作小结</h3>
+	<p>状态：<%= smy.get_state()%></p>
+
+	<ul>
+		<% for(var i=0; i<items.length; i++) {%>
+		<input name="id" class="sel_val" type="hidden" value="<%=items[i].id%>">
+		<li class="context_li">
+			<div class="width_100 float_left"><%=items[i].sn%>.<%=items[i].task%></div>
+	        <div class="width_50 float_left">性质：<%=items[i].worktype.worktype%></div>
+	    	<div class="width_50 float_left">用时：<%=items[i].get_fmt_workhour()%></div>
+	    	<%var temp_point=items[i].point||3; %>
+	    	<div class="width_100 float_left ct_show">评价：<input name="point" class="sel_val" type="hidden" value="<%=temp_point%>"><span class='sel-c<%=temp_point%>'><%=templist[temp_point-1] %></span></div>
+	    	<div class="width_100 float_left ct_select noshow">
+	    		<ul class="select_ui">
+	    			<li class="sel-c5" data-val="5">优秀</li>
+	    			<li class="sel-c4" data-val="4">良好</li>
+	    			<li class="sel-c3" data-val="3">尽职</li>
+	    			<li class="sel-c2" data-val="2">需改进</li>
+	    			<li class="sel-c1" data-val="1">差</li>
+	    		</ul>
+	    	</div>
+		</li>
+		<%}%>
+	</ul>
+
+	<div class="container mg_t20">
+		<a id="btn_next" class="button button-green" >通过</a>
+		<a id="btn_back" class="button button-gray" >打回</a>
+	</div>
+</form>
+<% include ../common/static_msg.html %>
+
+
+<script type="text/javascript">
+	$(function(){
+		$(".select_ui li").click(function(event){
+			event.stopPropagation();//防止事件冒泡
+			var li=$(this);
+			var sel_val=li.parents(".context_li").find(".sel_val");
+			var val=li.data("val");
+			var txt=li.text();
+			sel_val.val(val);
+			sel_val.next().attr("class",li.attr('class')).text(txt);
+			li.parents(".ct_select").hide(500);
+		})
+
+		$(".context_li").click(function(){
+			var ct_select=$(this).find(".ct_select");
+			if(ct_select.is(":hidden")){
+				ct_select.show(500);
+			}
+		})
+
+		$("#btn_next").click(function(){
+			$("form").hide();
+			$.post("/monthsmy/<%= smy.id %>/next?pa_id=<%= pa_id %>",$('form').serialize(),showMsg,'json');
+		});
+
+		$("#btn_back").click(function(){
+			$("form").hide();
+			$.post("/monthsmy/<%= smy.id %>/back?pa_id=<%= pa_id %>",showMsg);
+		});
+	})
+</script>
+
+</body>
+</html>

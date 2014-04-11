@@ -5,6 +5,7 @@
 </head>
 
 <body>
+	<% var templist=["优秀","良好","尽职","需改进","差"]; %>
 	<% include ../common/message.html %>
 	
 	<h3><%= smy.year %>年<%= smy.month %>月</h3>
@@ -17,6 +18,9 @@
 			<div class="width_100 float_left"><%=items[i].sn%>.<%=items[i].task%></div>
 	        <div class="width_50 float_left">性质：<%=items[i].worktype.worktype%></div>
 	    	<div class="width_50 float_left">用时：<%=items[i].get_fmt_workhour()%></div>
+	    	<%if(items[i].point){%>
+	    	<div class="width_100 float_left ct_show">评价：<span class='sel-c<%=items[i].point%>'><%=templist[items[i].point-1] %></span></div>
+			<%}%>
 		</li>
 		<%}%>
 	</ul>

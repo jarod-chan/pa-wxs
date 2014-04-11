@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+	
+<body>
+	<% include ../common/message.html %>
+
+	<h3><%= plan.year %>年<%= plan.month %>月</h3>
+	<h3><%= plan.department.name %>部门月度计划</h3>
+	<p>状态:<%= plan.get_state() %></p>
+
+	<ul>
+		<%if(items){%>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li" data-id="<%=items[i].id%>" >
+			<div class="width_100 float_left min_height60">
+			<%if(!items[i].context){%>
+				<div class="fix_right4px noshow div_delete"><a  class="btns_delete button button-red" data-id="<%=items[i].id%>">删除</a></div>
+			<%}%>
+				<%=items[i].sn%>.
+				<% if(items[i].context){ %>
+					计划：<%=items[i].context %>
+				<% } %>
+				<% if(items[i].context && items[i].summary){ %>   
+				</br>
+				<% } %>
+				<% if(items[i].summary){ %>
+					总结：<%=items[i].summary %>
+				<% } %>
+			</div>
+		</li>
+		<%}%>
+		<%}%>
+	</ul>
+
+	<div class="container "><button id="btn_add" class="large_button button-gray width_100 " >+</button></div>
+	
+	<div class="container mg_t20"><a id="btn_commit" class="button button-green" >完成</a></div>
+
+	<form method="post">
+		<input type="hidden" name="id" id="param_id" value="">
+	</form>
+
+	<script type="text/javascript">
+		$(function(){
+
+			$(".context_li").swipeLeft(function(){
+				$(this).find(".div_delete").show();
+			});
+			$(".context_li").swipeRight(function(){
+				$(this).find(".div_delete").hide();
+			});
+
+
+			$(".context_li").click(function(){
+				window.open('/monthplan/item_smy?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}),'_self');
+			});
+			$(".btns_delete").click(function(event){
+				event.stopPropagation();//防止事件冒泡
+				$("#param_id").val($(this).data("id"));
+				$("form").attr('action','/monthplan/item_smy/delete?'+$.param({pa_id:<%=pa_id%>})).submit();
+			});
+			$("#btn_add").click(function(){
+				window.open('/monthplan/item_smy?'+$.param({pa_id:<%=pa_id%>,plan_id:<%= plan.id%>}),'_self');
+			});
+			$("#btn_commit").click(function(){
+				$("#param_id").val('<%=plan.id %>');
+				$("form").attr('action','/monthplan/finish?'+$.param({pa_id:<%=pa_id%>})).submit();
+			});
+		});
+	</script>
+</body>
+</html>

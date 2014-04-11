@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+	
+<body>
+<div class="contain_body">
+	<h3><%= plan.year %>年<%= plan.month %>月</h3>
+	<h3><%= plan.department.name %>部门月度计划</h3>
+	<p>状态:<%= plan.get_state() %></p>
+
+	<ul>
+		<%if(items){%>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li" data-id="<%=items[i].id%>" >
+			<div class="width_100 float_left min_height60">
+				计划：<%=items[i].context %>
+			</div>
+		</li>
+		<%}%>
+		<%}%>
+	</ul>
+
+	<div class="container mg_t20">
+		<a id="btn_next" class="button button-green" >通过</a>
+		<a id="btn_back" class="button button-gray" >打回</a>
+	</div>
+</div>
+
+<% include ../common/static_msg.html %>
+
+<script type="text/javascript">
+	$(function(){
+		$("#btn_next").click(function(){
+			$(".contain_body").hide();
+			$.post("/monthplan/<%= plan.id %>/next?pa_id=<%= pa_id %>",showMsg);
+		});
+
+		$("#btn_back").click(function(){
+			$(".contain_body").hide();
+			$.post("/monthplan/<%= plan.id %>/back?pa_id=<%= pa_id %>",showMsg);
+		});
+	})
+</script>
+
+</body>
+</html>

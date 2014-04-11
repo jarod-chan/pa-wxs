@@ -1,0 +1,12 @@
+<div id="message" class="block width_100 ui-corner-all border_solid noshow mg_t20">
+	<h2>操作成功！</h2>
+	<p class="context"></p>
+</div>
+<script type="text/javascript">
+	function showMsg(msg){ 
+		var div_msg=$("#message");
+		div_msg.addClass(msg.flag?'bg_green':'bg_red');
+		div_msg.find(".context").html(msg.message+"！");
+		div_msg.show();
+	}
+</script>

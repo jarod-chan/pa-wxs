@@ -183,11 +183,33 @@ exports.check_submit=function(items){
 	return  {result:true,message:'部门月度计划提交成功。'};
 }
 
+
 exports.submit=function(models,plan_id,callback){
 	var Monthplan=models.Monthplan;
 	Monthplan.get(plan_id,function(err,montplan){
 		if(err) callback(err);
 		montplan.state='SUBMITTED';
+		montplan.save(callback);
+	});
+}
+
+exports.check_finish=function(items){
+	if(items.length==0) return{esult:false,message:'部门月度计划不能为空。'};
+	for (var i = 0;i <items.length; i++ ) {
+		item=items[i];
+		if(!item.summary){
+			message=util.format('第%s条【总结】不能为空。',item.sn);
+			return {result:false,message:message};
+		}
+	};
+	return  {result:true,message:'部门月度计划已完成。'};
+}
+
+exports.finish=function(models,plan_id,callback){
+	var Monthplan=models.Monthplan;
+	Monthplan.get(plan_id,function(err,montplan){
+		if(err) callback(err);
+		montplan.state='FINISHED';
 		montplan.save(callback);
 	});
 }

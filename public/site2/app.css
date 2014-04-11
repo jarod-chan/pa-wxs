@@ -88,6 +88,10 @@ body{
   height: 120px;
 }
 
+.height_250{
+  height: 120px;
+}
+
 .fix_right4px{
   position:absolute;right:4px;  
 }
@@ -119,3 +123,39 @@ body{
 .min_height60{
   min-height: 60px;
 }
+
+/*---------------------------------------------------------*/
+.select_ui li{
+    float: left;
+    display: block;
+    font-size: 28px;
+    padding: 5px;
+    margin:10px 10px; 
+    border-radius: 0.3125em;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .sel-c5{
+    background-color:#FF8080
+  }
+  .sel-c4{
+    background-color:#FECF78
+  }
+  .sel-c3{
+    background-color:#B9EA48
+  }
+  .sel-c2{
+    background-color:#00C462
+  }
+  .sel-c1{
+    background-color:#1E8EFF
+  }
+
+  .ct_show span{
+    border-radius: 0.3125em;
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+    padding: 2px;
+  }
