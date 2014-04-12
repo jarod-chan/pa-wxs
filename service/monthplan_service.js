@@ -73,24 +73,20 @@ exports.find_monthplan_items=function(models,monthplan,callback){
 	}
 }
 
-exports.find_curr_item=function(models,monthplan,item_id,callback){
-	var plan_id=monthplan.id;
-	if(item_id>0){
-		var MPitem=models.MPitem;
-		MPitem.get(item_id,function(err,item){
-			if(err) callback(err);
-			callback(null,item);
-		});
-	}else{
-		create_new_mpitem(models,plan_id,callback);
-	}
+exports.find_mpitem=function(models,item_id,callback){
+	var MPitem=models.MPitem;
+	MPitem.get(item_id,callback);
 }
 
-function create_new_mpitem(models,plan_id,callback){
+exports.create_mpitem=function(models,plan_id,callback){
 	step(
 		function(){
-			var MPitem=models.MPitem;
-			MPitem.count({idrtaskbill_id:plan_id},this);
+			if(plan_id){
+				var MPitem=models.MPitem;
+				MPitem.count({idrtaskbill_id:plan_id},this);
+			}else{
+				return 0;
+			}
 		},
 		function(err,count){
 			item={
@@ -105,6 +101,7 @@ function create_new_mpitem(models,plan_id,callback){
 	);
 }
 
+
 exports.save_item=function(models,item,callback){
 	var MPitem=models.MPitem;
 	if(!item.id) item.id=null;//id为空字符，orm保存有问题
@@ -113,7 +110,7 @@ exports.save_item=function(models,item,callback){
 			old_item.save(item,callback);
 		});
 	}else{
-		MPitem.create([item],callback);
+		MPitem.create(item,callback);
 	}
 }
 
@@ -137,6 +134,8 @@ exports.add_monthplan=function(models,montplan,callback){
 		}
 	);
 }
+
+
 
 exports.delete_item=function(models,item_id,callback){
 	var MPitem=models.MPitem;
@@ -172,15 +171,15 @@ exports.delete_item=function(models,item_id,callback){
 }
 
 exports.check_submit=function(items){
-	if(items.length==0) return{esult:false,message:'部门月度计划不能为空。'};
+	if(items.length==0) return{flag:false,message:'部门月度计划不能为空'};
 	for (var i = 0;i <items.length; i++ ) {
 		item=items[i];
 		if(!item.context){
-			message=util.format('第%s条【计划】不能为空。',item.sn);
-			return {result:false,message:message};
+			message=util.format('第%s条【计划】不能为空',item.sn);
+			return {flag:false,message:message};
 		}
 	};
-	return  {result:true,message:'部门月度计划提交成功。'};
+	return  {flag:true,message:'部门月度计划提交成功'};
 }
 
 
@@ -194,15 +193,15 @@ exports.submit=function(models,plan_id,callback){
 }
 
 exports.check_finish=function(items){
-	if(items.length==0) return{esult:false,message:'部门月度计划不能为空。'};
+	if(items.length==0) return{flag:false,message:'部门月度计划不能为空'};
 	for (var i = 0;i <items.length; i++ ) {
 		item=items[i];
 		if(!item.summary){
-			message=util.format('第%s条【总结】不能为空。',item.sn);
-			return {result:false,message:message};
+			message=util.format('第%s条【总结】不能为空',item.sn);
+			return {flag:false,message:message};
 		}
 	};
-	return  {result:true,message:'部门月度计划已完成。'};
+	return  {flag:true,message:'部门月度计划已完成'};
 }
 
 exports.finish=function(models,plan_id,callback){

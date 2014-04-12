@@ -1,12 +1,29 @@
-<div id="message" class="block width_100 ui-corner-all border_solid noshow mg_t20">
-	<h2>操作成功！</h2>
-	<p class="context"></p>
+<div id="message" class="block width_100 ui-corner-all border_solid mg_t20 noshow">
+	<h2></h2>
+	<p></p>
+	<div style="text-align:center">
+		<a onclick="hideMsg()" class="button button-blue" >继续操作</a>
+	</div>
 </div>
 <script type="text/javascript">
 	function showMsg(msg){ 
 		var div_msg=$("#message");
-		div_msg.addClass(msg.flag?'bg_green':'bg_red');
-		div_msg.find(".context").html(msg.message+"！");
+		div_msg.find("p").html(msg.message+"！");
+		if(msg.flag){
+			div_msg.find('h2').text('操作成功！');
+			div_msg.addClass('bg_green');
+			div_msg.find('div').hide();
+		}else{
+			div_msg.find('h2').text('操作失败！');
+			div_msg.addClass('bg_red');
+			div_msg.find('div').show();
+		}
 		div_msg.show();
 	}
+
+	function hideMsg(){
+		$("#message").hide();
+		$("#contain_body").show();
+	}
+
 </script>

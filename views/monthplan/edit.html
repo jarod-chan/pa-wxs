@@ -5,7 +5,7 @@
 </head>
 	
 <body>
-	<% include ../common/message.html %>
+<div id="contain_body">
 
 	<h3><%= plan.year %>年<%= plan.month %>月</h3>
 	<h3><%= plan.department.name %>部门月度计划</h3>
@@ -41,6 +41,10 @@
 		<input type="hidden" name="id" id="param_id" value="">
 	</form>
 
+</div>
+
+	<% include ../common/static_msg.html %>
+
 	<script type="text/javascript">
 		$(function(){
 
@@ -52,7 +56,7 @@
 			});
 
 			$(".context_li").click(function(){
-				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id")}),'_self');
+				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}),'_self');
 			});
 			$(".btns_delete").click(function(event){
 				event.stopPropagation();//防止事件冒泡
@@ -60,11 +64,11 @@
 				$("form").attr('action','/monthplan/item/delete?'+$.param({pa_id:<%=pa_id%>})).submit();
 			});
 			$("#btn_add").click(function(){
-				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,id:-1}),'_self');
+				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,plan_id:'<%=plan.id%>'}),'_self');
 			});
 			$("#btn_commit").click(function(){
-				$("#param_id").val('<%=plan.id %>');
-				$("form").attr('action','/monthplan/submit?'+$.param({pa_id:<%=pa_id%>})).submit();
+				$("#contain_body").hide();
+				$.post("/monthplan/submit?"+$.param({pa_id:<%=pa_id%>}),{plan_id:'<%=plan.id %>'},showMsg,'json');
 			});
 		});
 	</script>

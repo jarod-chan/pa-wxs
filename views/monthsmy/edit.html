@@ -5,8 +5,7 @@
 </head>
 
 <body>
-	
-	<% include ../common/message.html %>
+<div id="contain_body">
 	
 	<h3><%= smy.year %>年<%= smy.month %>月</h3>
 	<h3><%= smy.person.name %>月度工作小结</h3>
@@ -14,7 +13,7 @@
 
 	<ul>
 		<% for(var i=0; i<items.length; i++) {%>
-		<li class="context_li" data-sn="<%=items[i].sn%>" >
+		<li class="context_li" data-id="<%=items[i].id%>" >
 			<div class="fix_right4px noshow div_delete"><a  class="btns_delete button button-red" data-id="<%=items[i].id%>">删除</a></div>
 			<div class="width_100 float_left"><%=items[i].sn%>.<%=items[i].task%></div>
 	        <div class="width_50 float_left">性质：<%=items[i].worktype.worktype%></div>
@@ -31,6 +30,10 @@
 		<input type="hidden" name="id" id="param_id" value="">
 	</form>
 
+</div>
+
+<% include ../common/static_msg.html %>
+
 <script type="text/javascript">
 	$(function(){
 		$(".context_li").swipeLeft(function(){
@@ -41,7 +44,7 @@
 		});
 
 		$(".context_li").click(function(){
-			window.open('/monthsmy/item?pa_id=<%=pa_id%>&sn='+$(this).data("sn"),'_self');
+			window.open('/monthsmy/item?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}),'_self');
 		});
 		$(".btns_delete").click(function(event){
 			event.stopPropagation();//防止事件冒泡
@@ -49,11 +52,12 @@
 			$("form").attr('action','/monthsmy/item/delete?pa_id=<%=pa_id%>').submit();
 		});
 		$("#btn_add").click(function(){
-			window.open('/monthsmy/item?pa_id=<%=pa_id%>&sn=<%=items.length+1%>','_self');
+			window.open('/monthsmy/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,smy_id:'<%=smy.id%>'}),'_self');
 		});
+
 		$("#btn_commit").click(function(){
-			$("#param_id").val('<%=smy.id %>');
-			$("form").attr('action','/monthsmy/submit?pa_id=<%=pa_id%>').submit();
+			$("#contain_body").hide();
+			$.post("/monthsmy/submit?"+$.param({pa_id:<%=pa_id%>}),{id:'<%=smy.id %>'},showMsg,'json');
 		});
 	});
 </script>

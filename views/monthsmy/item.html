@@ -23,7 +23,7 @@
 	</div>
 	<div class="block mg_t10">
 		<label class="labfor">用时：</label>
-		<input type="text" class="width_100px" name="workhour" value="<%=item.get_fmt_workhour()%>">
+		<input type="text" class="width_100px" id="id_workhour" name="workhour" value="<%=item.get_fmt_workhour()%>">
 	</div>
 	<div class="container mg_t20">
 		<a id="btn_save" class="button button-green" >保存</a>
@@ -40,6 +40,17 @@
 		$("#btn_cancel").click(function(){
 			window.open('/monthsmy/curr?pa_id=<%=pa_id%>','_self');
 		});
+
+		$("#id_workhour").blur(function(){
+			var obj=$(this);
+			var workhour=obj.val().trim();
+			if(!IsFloat(workhour,"+")){
+				obj.val("");
+			}else{
+				obj.val(hold(workhour,1));
+			}
+		});
+
 	});
 </script>
 </body>

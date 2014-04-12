@@ -5,6 +5,7 @@
 </head>
 
 <body>
+<div id="contain_body">
 <form>
 	<% var templist=["优秀","良好","尽职","需改进","差"]; %>
 	
@@ -39,6 +40,8 @@
 		<a id="btn_back" class="button button-gray" >打回</a>
 	</div>
 </form>
+</div>
+
 <% include ../common/static_msg.html %>
 
 
@@ -63,12 +66,12 @@
 		})
 
 		$("#btn_next").click(function(){
-			$("form").hide();
+			$("#contain_body").hide();
 			$.post("/monthsmy/<%= smy.id %>/next?pa_id=<%= pa_id %>",$('form').serialize(),showMsg,'json');
 		});
 
 		$("#btn_back").click(function(){
-			$("form").hide();
+			$("#contain_body").hide();
 			$.post("/monthsmy/<%= smy.id %>/back?pa_id=<%= pa_id %>",showMsg);
 		});
 	})

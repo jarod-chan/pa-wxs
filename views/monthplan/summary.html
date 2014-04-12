@@ -5,7 +5,7 @@
 </head>
 	
 <body>
-	<% include ../common/message.html %>
+<div id="contain_body">
 
 	<h3><%= plan.year %>年<%= plan.month %>月</h3>
 	<h3><%= plan.department.name %>部门月度计划</h3>
@@ -42,6 +42,9 @@
 	<form method="post">
 		<input type="hidden" name="id" id="param_id" value="">
 	</form>
+</div>
+	
+	<% include ../common/static_msg.html %>
 
 	<script type="text/javascript">
 		$(function(){
@@ -65,9 +68,10 @@
 			$("#btn_add").click(function(){
 				window.open('/monthplan/item_smy?'+$.param({pa_id:<%=pa_id%>,plan_id:<%= plan.id%>}),'_self');
 			});
+
 			$("#btn_commit").click(function(){
-				$("#param_id").val('<%=plan.id %>');
-				$("form").attr('action','/monthplan/finish?'+$.param({pa_id:<%=pa_id%>})).submit();
+				$("#contain_body").hide();
+				$.post("/monthplan/finish?"+$.param({pa_id:<%=pa_id%>}),{id:'<%=plan.id %>'},showMsg,'json');
 			});
 		});
 	</script>

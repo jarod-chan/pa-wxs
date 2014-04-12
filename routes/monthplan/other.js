@@ -81,14 +81,14 @@ exports.delete_item_smy=function(req,res){
 exports.finish=function(req,res){
 	var person=req.pa.person;
 	var plan_id=req.body.id;
+	var ctx={};
 	step(
 		function(){
 			monthplan_service.find_monthplan_items(req.models,{id:plan_id},this);
 		},
 		function(err,items){
-			var msg=monthplan_service.check_finish(items);
-			req.cache_pa.msg(msg);
-			if(msg.result){
+			ctx.msg=monthplan_service.check_finish(items);
+			if(ctx.msg.flag){
 				monthplan_service.finish(req.models,plan_id,this);
 			}else{
 				return true;
@@ -96,7 +96,7 @@ exports.finish=function(req,res){
 		},
 		function(err){
 			if(err) console.info(err);
-			res.redirect('/monthplan/curr?pa_id='+person.id);
+			res.send(ctx.msg);
 		}
 	);
 }

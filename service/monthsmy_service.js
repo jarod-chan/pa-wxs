@@ -7,11 +7,15 @@ var exdate = require('exdate')
 //当前月总结
 exports.curr_monthsmy = function(models,person,callback) {
 	var Monthsmy=models.Monthsmy;
-	Monthsmy.find({person_id:person.id})
-		.order("-year")
-		.order("-month")
-		.limit(1)
-		.run(function(err,monthsmys){
+	step(
+		function(){
+			Monthsmy.find({person_id:person.id})
+			.order("-year")
+			.order("-month")
+			.limit(1)
+			.run(this);
+		},
+		function(err,monthsmys){
 			if(err) {callback(err); return;}
 			var monthsmy={};
 			if(person_dont_have_monthsmy(monthsmys)){
@@ -23,7 +27,8 @@ exports.curr_monthsmy = function(models,person,callback) {
 				}
 			}
 			callback(null,monthsmy);
-		});
+		}
+	);
 }
 
 function person_dont_have_monthsmy(monthsmys){
@@ -47,6 +52,7 @@ function create_next_month_monthsmy(monthsmy,person){
 
 function create_new_monthsmy(year,month,person){
 	return {
+		id:'',
 		year: year,
 		month: month,
 		person_id:person.id,
@@ -63,45 +69,42 @@ exports.find_monthsmy_items=function(models,monthsmy,callback){
 		var Msitem=models.Msitem;
 		Msitem.find({monthchk_id:monthsmy_id})
 			.order('sn')
-			.run(function(err,items){
-				if(err) callback(err);
-				callback(null,items);
-			});
+			.run(callback);
 	}else{
 		callback(null,[]);
 	}
 }
 
-exports.find_curr_item=function(models,monthsmy_id,item_sn,callback){
+/*------------------------------------------------------------*/
+
+exports.find_msitem=function(models,item_id,callback){
 	var Msitem=models.Msitem;
-	var item={};
-	if(monthsmy_id){
-		Msitem.find({monthchk_id:monthsmy_id,sn:item_sn})
-			.run(function(err,items){
-				if(err) callback(err);
-				if(items.length===0){
-					item=create_new_msitem(monthsmy_id,item_sn);
-				}else{
-					item=items[0];
-				}
-				callback(null,item);
-			});
-	}else{
-		item=create_new_msitem('',1);
-		callback(null,item);
-	}
+	Msitem.get(item_id,callback);
 }
 
-function create_new_msitem(monthsmy_id,item_sn){
-	return {
-		id: '',
-		monthchk_id: monthsmy_id,
-		worktype_id:'',
-		sn: item_sn,
-		task:'',
-		workhour:'',//浮点数
-		get_fmt_workhour:help.get_fmt_workhour
-	}
+exports.create_msitem=function(models,smy_id,callback){
+	step(
+		function(){
+			if(smy_id){
+				var Msitem=models.Msitem;
+				Msitem.count({monthchk_id:smy_id},this);
+			}else{
+				return 0;
+			}
+		},
+		function(err,count){
+			var item = {
+				id: '',
+				monthchk_id: smy_id,
+				worktype_id:'',
+				sn: count+1,
+				task:'',
+				workhour:'',//浮点数
+				get_fmt_workhour:help.get_fmt_workhour
+			}
+			callback(err,item);
+		}
+	);
 }
 
 exports.find_worktypes=function(models,callback){
@@ -116,6 +119,7 @@ exports.find_worktypes=function(models,callback){
 
 exports.save_item=function(models,item,callback){
 	var Msitem=models.Msitem;
+	console.info(item);
 	if(!item.id) item.id=null;
 	if(!item.workhour) item.workhour=null;
 	if(item.id){
@@ -124,17 +128,22 @@ exports.save_item=function(models,item,callback){
 			old_item.save(item,callback);
 		})
 	}else{
-		Msitem.create([item],callback);
+		Msitem.create(item,callback);
 	}
 }
 
 exports.add_monthsmy=function(models,monthsmy,callback){
 	var Monthsmy=models.Monthsmy;
-	Monthsmy.create([monthsmy],function(err,smys){
+	delete monthsmy["id"];
+	delete monthsmy["get_state"];
+	delete monthsmy["get_fmt"];
+	monthsmy.state='SAVED';
+	Monthsmy.create(monthsmy,function(err,smy){
 		if(err) callback(err);
-		callback(err,smys[0]);
+		callback(null,smy);
 	});
 }
+
 
 exports.delete_item=function(models,item_id,callback){
 	var Msitem=models.Msitem;
@@ -168,19 +177,19 @@ exports.delete_item=function(models,item_id,callback){
 }
 
 exports.check_submit=function(items){
-	if(items.length==0) return {result:false,message:'月度工作小结不能为空。'};
+	if(items.length==0) return {flag:false,message:'月度工作小结不能为空'};
 	for (var i = 0; i < items.length; i++) {
 		item=items[i];
 		if(!item.task){
-			message=util.format('第%s条总结的【工作内容】不能为空。',item.sn);
-			return {result:false,message:message};
+			message=util.format('第%s条总结的【工作内容】不能为空',item.sn);
+			return {flag:false,message:message};
 		}
 		if(!item.workhour){
-			message=util.format('第%s条总结【用时】不能为空。',item.sn);
-			return {result:false,message:message};
+			message=util.format('第%s条总结【用时】不能为空',item.sn);
+			return {flag:false,message:message};
 		}
 	};
-	return {result:true,message:'月度工作小结提交成功。'};
+	return {flag:true,message:'月度工作小结提交成功'};
 }
 
 exports.submit=function(models,smy_id,callback){

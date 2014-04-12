@@ -5,7 +5,7 @@
 </head>
 	
 <body>
-<div class="contain_body">
+<div id="contain_body">
 	<h3><%= plan.year %>年<%= plan.month %>月</h3>
 	<h3><%= plan.department.name %>部门月度计划</h3>
 	<p>状态:<%= plan.get_state() %></p>
@@ -33,12 +33,12 @@
 <script type="text/javascript">
 	$(function(){
 		$("#btn_next").click(function(){
-			$(".contain_body").hide();
+			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/next?pa_id=<%= pa_id %>",showMsg);
 		});
 
 		$("#btn_back").click(function(){
-			$(".contain_body").hide();
+			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/back?pa_id=<%= pa_id %>",showMsg);
 		});
 	})
