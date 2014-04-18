@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+	
+<body>
+<div id="contain_body">
+	<h3><%= plan.year %>年<%= plan.month %>月</h3>
+	<h3><%= plan.department.name %>部门月度计划</h3>
+	<p>状态:<%= plan.get_state() %></p>
+
+	<ul>
+		<%if(items){%>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li" data-id="<%=items[i].id%>" >
+			<div class="width_100 float_left min_height60">
+				<%=items[i].sn%>.
+				<% if(items[i].context){ %>
+					计划：<%=items[i].context %>
+				<% } %>
+				<% if(items[i].context && items[i].summary){ %>   
+				</br>
+				<% } %>
+				<% if(items[i].summary){ %>
+					总结：<%=items[i].summary %>
+				<% } %>
+			</div>
+		</li>
+		<%}%>
+		<%}%>
+	</ul>
+
+	<div class="container mg_t20">
+		<a id="btn_return" class="button button-gray" >返回列表</a>
+	</div>
+</div>
+
+<form method="post"></form>
+
+<script type="text/javascript">
+	$(function(){
+
+		$("#btn_return").click(function(){
+			$("#contain_body").hide();
+			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page_numb%>}));
+		});
+
+	})
+</script>
+
+</body>
+</html>

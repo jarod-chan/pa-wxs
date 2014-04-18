@@ -30,10 +30,13 @@
 	<script type="text/javascript">
 		$(function(){
 			$("#btn_save").click(function(){
-				$('form').submit();
+				$('form').hide();
+				$.post("/monthplan/item_smy/save?pa_id=<%=pa_id%>",$('form').serialize(),function(){
+					goto('/monthplan/curr?pa_id=<%=pa_id%>');
+				})
 			});
 			$("#btn_cancel").click(function(){
-				window.open('/monthplan/curr?pa_id=<%=pa_id%>','_self');
+				goto('/monthplan/curr?pa_id=<%=pa_id%>','_self');
 			});
 		});
 	</script>

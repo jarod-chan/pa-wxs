@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+	
+<body>
+<div id="contain_body">
+	<h3><%= plan.year %>年<%= plan.month %>月</h3>
+	<h3><%= plan.department.name %>部门月度计划</h3>
+	<p>状态:<%= plan.get_state() %></p>
+
+	<ul>
+		<%if(items){%>
+		<% for(var i=0; i<items.length; i++) {%>
+		<li class="context_li" data-id="<%=items[i].id%>" >
+			<div class="width_100 float_left min_height60">
+				<%=items[i].sn%>.
+				计划：<%=items[i].context %>
+			</div>
+		</li>
+		<%}%>
+		<%}%>
+	</ul>
+
+	<div class="container mg_t20">
+		<a id="btn_next" class="button button-green" >通过</a>
+		<a id="btn_back" class="button button-gray" >打回</a>
+	</div>
+
+	<div class="container mg_t20">
+		<a id="btn_return" class="button button-gray" >返回列表</a>
+	</div>
+</div>
+
+<form method="post"></form>
+
+<script type="text/javascript">
+	$(function(){
+		$("#btn_next").click(function(){
+			$("#contain_body").hide();
+			$.post("/monthplan/<%= plan.id %>/check_next?pa_id=<%= pa_id %>",function(){
+				goto('/monthplan/check/list?pa_id=<%= pa_id %>');
+			});
+		});
+
+		$("#btn_back").click(function(){
+			$("#contain_body").hide();
+			$.post("/monthplan/<%= plan.id %>/check_back?pa_id=<%= pa_id %>",function(){
+				goto('/monthplan/check/list?pa_id=<%= pa_id %>');
+			});
+		});
+
+		$("#btn_return").click(function(){
+			$("#contain_body").hide();
+			goto('/monthplan/check/list?pa_id=<%= pa_id %>');
+		});
+
+	})
+</script>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 <% if(msg){ %>
-<div id="message" class="block width_100 ui-corner-all border_solid <% if(msg.result){ %>bg_green<% }else{ %>bg_red <% }%>">
-	<h2><% if(msg.result){ %>操作成功<% }else{ %>操作失败<% }%>！</h2>
-	<p><%=msg.message%></p>
+<div id="message" class="block width_100 ui-corner-all border_solid <% if(msg.flag){ %>bg_green<% }else{ %>bg_red <% }%>">
+	<h2><% if(msg.flag){ %>操作成功<% }else{ %>操作失败<% }%>！</h2>
+	<p><%=msg.message%>。</p>
 </div>
 <script type="text/javascript">
 	$(function(){

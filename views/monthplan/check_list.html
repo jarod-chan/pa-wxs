@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+	<% include ../common/message.html %>
+
+	<%if(post=="G_Y"){%> 
+		<% var active="two"%>
+		<% include ../common/tabmenu.html %>
+	<%}else{%>
+		<h3>部门月度计划</h3>
+	<%}%>
+
+	<ul>
+		<% for(var i=0; i<plans.length; i++) {%>
+		<li class="context_li" data-id="<%=plans[i].id%>" >
+			<div class="width_100 float_left"><%=plans[i].get_fmt().fullname%></div>
+	        <div class="width_100 float_left">状态：<%=plans[i].get_state()%></div>
+		</li>
+		<%}%>
+	</ul>
+
+<script type="text/javascript">
+	$(function(){
+
+		$(".context_li").click(function(){
+			goto('/monthplan/check_one?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id")}));
+		});
+	
+	});
+</script>
+
+
+</body>
+</html>

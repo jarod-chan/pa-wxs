@@ -1,0 +1,44 @@
+<style type="text/css">
+
+ul.tabnav li{
+	float:left;
+	display:inline;
+	margin-left:8px;
+}
+.tabnav li a{
+	background-color:#C0C0C0;
+	border:1px solid #808080;
+	color:#666;
+	display:block;
+	padding:5px 2px;
+	line-height:20px;
+	float:left;
+	font-weight:bold;
+	text-decoration:none;
+}
+.tabnav li a.active,
+.tabnav li a:hover{
+	background-color:#fff;
+	border-bottom:1px solid #fff;
+	_position:relative;
+}
+
+.tabdiv .tabnav{
+	border-bottom:1px solid #808080;
+	height:31px;
+	_overflow:hidden;
+}
+.tabdiv{
+	margin-top: 10px;
+}
+
+</style>
+
+
+<div class="tabdiv" >
+	<ul class="tabnav">
+		<li><a href="/monthsmy/history/list?pa_id=<%=pa_id%>" <%if(active=="one"){%> class="active" <%}%> ><h3>员工月度总结</h3></a></li>
+
+		<li><a href="/monthplan/history/list?pa_id=<%=pa_id%>"<%if(active=="two"){%> class="active" <%}%> ><h3>部门月度计划</h3></a></li>
+	</ul>
+</div>

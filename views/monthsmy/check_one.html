@@ -6,7 +6,7 @@
 
 <body>
 <div id="contain_body">
-<form>
+<form method="post">
 	<% var templist=["差","需改进","尽职","良好","优秀"]; %>
 	
 	<h3><%= smy.year %>年<%= smy.month %>月</h3>
@@ -39,10 +39,12 @@
 		<a id="btn_next" class="button button-green" >通过</a>
 		<a id="btn_back" class="button button-gray" >打回</a>
 	</div>
+
+	<div class="container mg_t20">
+		<a id="btn_return" class="button button-gray" >返回列表</a>
+	</div>
 </form>
 </div>
-
-<% include ../common/static_msg.html %>
 
 
 <script type="text/javascript">
@@ -66,13 +68,23 @@
 		})
 
 		$("#btn_next").click(function(){
+
 			$("#contain_body").hide();
-			$.post("/monthsmy/<%= smy.id %>/next?pa_id=<%= pa_id %>",$('form').serialize(),showMsg,'json');
+			$.post("/monthsmy/<%= smy.id %>/check_next?pa_id=<%= pa_id %>",$("form").serialize(),function(){
+				goto('/monthsmy/check/list?pa_id=<%= pa_id %>');
+			})
 		});
 
 		$("#btn_back").click(function(){
 			$("#contain_body").hide();
-			$.post("/monthsmy/<%= smy.id %>/back?pa_id=<%= pa_id %>",showMsg);
+			$.post("/monthsmy/<%= smy.id %>/check_back?pa_id=<%= pa_id %>",$("form").serialize(),function(){
+				goto('/monthsmy/check/list?pa_id=<%= pa_id %>');
+			})
+		});
+
+		$("#btn_return").click(function(){
+			$("#contain_body").hide();
+			goto('/monthsmy/check/list?pa_id=<%= pa_id %>');
 		});
 	})
 </script>

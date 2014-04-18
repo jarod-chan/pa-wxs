@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+	<% include ../common/message.html %>
+	
+	<%if(post=="G_Y"){%> 
+		<% var active="one"%>
+		<% include ../common/tabmenu_history.html %>
+	<%}else{%>
+		<h3>员工月度总结</h3>
+	<%}%>
+
+	<ul>
+		<% for(var i=0; i<smys.length; i++) {%>
+		<li class="context_li" data-id="<%=smys[i].id%>" >
+			<div class="width_100 float_left"><%=smys[i].get_fmt().fullname%></div>
+	        <div class="width_100 float_left">状态：<%=smys[i].get_state()%></div>
+		</li>
+		<%}%>
+	</ul>
+
+	<% include ../common/page.html %>
+
+<script type="text/javascript">
+	$(function(){
+
+		$(".context_li").click(function(){
+			goto('/monthsmy/history_one?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id"),page_numb:<%=page.curr%>}));
+		});
+		
+		$("#btn_prev").click(function(){
+			goto('/monthsmy/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.prev%>}));
+		});
+
+		$("#btn_next").click(function(){
+			goto('/monthsmy/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.next%>}));
+		});
+
+	});
+</script>
+
+
+</body>
+</html>

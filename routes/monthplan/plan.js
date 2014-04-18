@@ -75,7 +75,7 @@ exports.save_item=function(req,res){
 	if(pg_item.idrtaskbill_id){
 		monthplan_service.save_item(req.models,pg_item,function(err,item){
 			if(err) console.info(err);
-			res.redirect('/monthplan/curr?pa_id='+person.id);
+			res.send(true);
 		})
 	}else{
 		step(
@@ -96,7 +96,7 @@ exports.save_item=function(req,res){
 			},
 			function(err){
 				if(err) console.log(err);
-				res.redirect('/monthplan/curr?pa_id='+person.id);
+				res.send(true);
 			}
 		);
 	}
@@ -106,7 +106,7 @@ exports.delete_item=function(req,res){
 	var person=req.pa.person;
 	var item_id=req.body.id;
 	monthplan_service.delete_item(req.models,item_id,function(err){
-		res.redirect('/monthplan/curr?pa_id='+person.id);
+		res.send(true);
 	});
 }
 
@@ -133,66 +133,3 @@ exports.submit=function(req,res){
 	);
 }
 
-exports.check=function(req,res){
-	var person=req.pa.person;
-	var plan_id=req.params.id; 
-	var ctx={pa_id:person.id,msg:req.cache_pa.msg()};
-	step(
-		function(){
-			var Monthplan=req.models.Monthplan;
-			Monthplan.get(plan_id,this);
-		},
-		function(err,monthplan){
-			ctx.plan=monthplan;
-			monthplan_service.find_monthplan_items(req.models,monthplan,this);//todo 重构
-		},
-		function(err,items){
-			ctx.items=items;
-			return true;
-		},
-		function(err){
-			var page='view';
-			if(ctx.plan.state=='SUBMITTED'){
-				page='check';
-			}
-			page='monthplan/'+page;
-			res.render(page,ctx);
-		}
-	);
-}
-
-exports._next=function(req,res){
-	var plan_id=req.params.id;
-	step(
-		function(){
-			var Monthplan=req.models.Monthplan;
-			Monthplan.get(plan_id,this);
-		},
-		function(err,monthplan){
-			monthplan.state='EXECUTE';
-			monthplan.save(this);
-		},
-		function(err){
-			res.send(msg.create(true,'部门月度计划已通过'));
-		}
-	);
-	
-}
-
-exports._back=function(req,res){
-	var plan_id=req.params.id;
-	step(
-		function(){
-			var Monthplan=req.models.Monthplan;
-			Monthplan.get(plan_id,this);
-		},
-		function(err,monthplan){
-			monthplan.state='SAVED';
-			monthplan.save(this);
-		},
-		function(err){
-			res.send(msg.create(true,'部门月度计划已打回'));
-		}
-	);
-	
-}

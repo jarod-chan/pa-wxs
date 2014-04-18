@@ -53,7 +53,8 @@ exports.save_item_smy=function(req,res){
 				mpitem.save(pg_item,this);
 			},
 			function(err){
-				res.redirect('/monthplan/curr?pa_id='+person.id);
+				if(err) console.info(err);
+				res.send(true);
 			}
 		);
 	}else{
@@ -64,7 +65,8 @@ exports.save_item_smy=function(req,res){
 				MPitem.create(pg_item,this);
 			},
 			function(err){
-				res.redirect('/monthplan/curr?pa_id='+person.id);
+				if(err) console.info(err);
+				res.send(true);
 			}
 		);
 	}
@@ -74,7 +76,8 @@ exports.delete_item_smy=function(req,res){
 	var person=req.pa.person;
 	var item_id=req.body.id;
 	monthplan_service.delete_item(req.models,item_id,function(err){
-		res.redirect('/monthplan/curr?pa_id='+person.id);
+		if(err) console.info(err);
+		res.send(true);
 	});
 }
 

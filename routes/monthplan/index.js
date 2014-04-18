@@ -1,5 +1,9 @@
 var plan = require("./plan.js")
-	,other = require("./other.js");
+	,summary = require("./summary.js")
+	,checklist = require("./checklist.js")
+	,history=require("./history")
+	,check=require("./check");
+
 
 exports.curr=plan.curr
 
@@ -11,16 +15,36 @@ exports.delete_item=plan.delete_item
 
 exports.submit=plan.submit
 
-exports.check=plan.check
 
-exports._next=plan._next
 
-exports._back=plan._back
+exports.check=check.check
 
-exports.item_smy=other.item_smy
+exports._next=check._next
 
-exports.save_item_smy=other.save_item_smy
+exports._back=check._back
 
-exports.delete_item_smy=other.delete_item_smy
 
-exports.finish=other.finish
+
+exports.item_smy=summary.item_smy
+
+exports.save_item_smy=summary.save_item_smy
+
+exports.delete_item_smy=summary.delete_item_smy
+
+exports.finish=summary.finish
+
+
+
+exports.check_list=checklist.list
+
+exports.check_one=checklist.check_one
+
+exports.check_next=checklist._next
+
+exports.check_back=checklist._back
+
+
+
+exports.history_list=history.list
+
+exports.history_one=history.one

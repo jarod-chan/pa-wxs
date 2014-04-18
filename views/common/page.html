@@ -1,0 +1,15 @@
+<div class="container mg_t20">
+	<div class="width_100 float_left">
+		<%if(page.prev>0){%>
+			<a id="btn_prev" class="button button-green" >上页</a>
+		<%}else{%>
+			<a class="button button-disable" >上页</a>
+		<%}%>
+		&nbsp;&lt;<span id='page'><%=page.curr%></span>&gt;&nbsp;
+		<%if(page.next>0){%>
+		<a id="btn_next" class="button button-green" >下页</a>
+		<%}else{%>
+			<a class="button button-disable" >下页</a>
+		<%}%>
+	</div>
+</div>

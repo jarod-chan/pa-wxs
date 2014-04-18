@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ../common/head.html %>
+</head>
+
+<body>
+	<% include ../common/message.html %>
+
+	<%if(post=="G_Y"){%> 
+		<% var active="two"%>
+		<% include ../common/tabmenu_history.html %>
+	<%}else{%>
+		<h3>部门月度计划</h3>
+	<%}%>
+
+	<ul>
+		<% for(var i=0; i<plans.length; i++) {%>
+		<li class="context_li" data-id="<%=plans[i].id%>" >
+			<div class="width_100 float_left"><%=plans[i].get_fmt().fullname%></div>
+	        <div class="width_100 float_left">状态：<%=plans[i].get_state()%></div>
+		</li>
+		<%}%>
+	</ul>
+
+	<% include ../common/page.html %>
+
+
+<script type="text/javascript">
+	$(function(){
+
+		$(".context_li").click(function(){
+			goto('/monthplan/history_one?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id"),page_numb:<%=page.curr%>}));
+		});
+		
+		$("#btn_prev").click(function(){
+			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.prev%>}));
+		});
+
+		$("#btn_next").click(function(){
+			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.next%>}));
+		});
+	});
+</script>
+
+
+</body>
+</html>

@@ -37,10 +37,6 @@
 	
 	<div class="container mg_t20"><a id="btn_commit" class="button button-green" >提交</a></div>
 
-	<form method="post">
-		<input type="hidden" name="id" id="param_id" value="">
-	</form>
-
 </div>
 
 	<% include ../common/static_msg.html %>
@@ -56,15 +52,18 @@
 			});
 
 			$(".context_li").click(function(){
-				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}),'_self');
+				goto('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}));
 			});
 			$(".btns_delete").click(function(event){
 				event.stopPropagation();//防止事件冒泡
-				$("#param_id").val($(this).data("id"));
-				$("form").attr('action','/monthplan/item/delete?'+$.param({pa_id:<%=pa_id%>})).submit();
+				
+				$("#contain_body").hide();
+				$.post("/monthplan/item/delete?pa_id=<%=pa_id%>",{id:$(this).data("id")},function(){
+					goto('/monthplan/curr?pa_id=<%=pa_id%>');
+				})
 			});
 			$("#btn_add").click(function(){
-				window.open('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,plan_id:'<%=plan.id%>'}),'_self');
+				goto('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,plan_id:'<%=plan.id%>'}));
 			});
 			$("#btn_commit").click(function(){
 				$("#contain_body").hide();

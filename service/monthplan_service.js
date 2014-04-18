@@ -12,6 +12,7 @@ exports.curr_monthplan=function(models,department,callback){
 		.order("-month")
 		.limit(1)
 		.run(function(err,plans){
+			plans=plans||[];
 			if(err){callback(err);return};
 			var plan={};
 			if(dept_dont_have_plans(plans)){
@@ -35,7 +36,7 @@ function plan_is_finished(plan){
 }
 
 function create_this_month_plan(dept){
-	var date=exdate.distance(new Date());
+	var date=new Date();
 	return create_new_plan(date.getFullYear(),date.getMonth()+1,dept);
 }
 
@@ -126,6 +127,7 @@ exports.add_monthplan=function(models,montplan,callback){
 		function(err,fmp){
 			montplan.id=fmp.id;
 			montplan.state='SAVED';
+			montplan.createtime=new Date();
 			Plan.create(montplan,this);
 		},
 		function(err,saved_plan){

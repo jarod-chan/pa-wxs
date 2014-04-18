@@ -8,6 +8,7 @@ function Trim(str){
 	return $.trim(str);
 }
 
+
 /*
 IsFloat(string,string,int or string)测试字符串,+ or - or empty,empty or 0)
 功能：判断是否为浮点数、正浮点数、负浮点数、正浮点数+0、负浮点数+0
@@ -93,4 +94,9 @@ function IsFloat(objStr,sign,zero)
     {
         return true;
     }
+}
+
+
+function goto(url){
+    window.location.replace(url);
 }

@@ -20,6 +20,8 @@ body {
 .button-gray { background-color:  #C0C0C0; color: #fff; }
     .button-gray:hover { background-color: #808080; color: #fff; }
 
+.button-disable { background-color:  #C0C0C0; color: #fff; }
+    .button-disable:hover { background-color: #C0C0C0; color: #fff; }
 body{
 	padding-left: 10px;
 	padding-right: 20px;

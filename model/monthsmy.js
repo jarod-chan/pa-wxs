@@ -9,7 +9,8 @@ exports.bind=function(db,models){
 		year: Number,
 		month: Number,
 		person_id:Number,
-		state:['NEW','SAVED','SUBMITTED','FINISHED']
+		state:['NEW','SAVED','SUBMITTED','FINISHED'],
+		createtime:Date
 	},{
         methods: {
             get_state: help.get_state,

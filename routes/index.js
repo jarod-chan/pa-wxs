@@ -3,7 +3,9 @@ var rt = require('./common/result')
 	,monthsmy=require('./monthsmy')
 	,monthplan=require('./monthplan')
 	,func=require('./func/func')
-	,work=require('./work');
+	,work=require('./work')
+	,frame=require('./frame')
+	,conf=require('../conf/conf.json');
 
 
 module.exports = function(app) {
@@ -29,64 +31,120 @@ module.exports = function(app) {
 	app.post('/monthsmy/submit',post_check('N'));
 	app.post('/monthsmy/submit',monthsmy.submit);
 
-	//部门经理
-	app.get('/monthplan/curr',post_check('Y'));
+	//部门计划
+	app.get('/monthplan/curr',post_check(['Y','G_Y']));
 	app.get('/monthplan/curr',monthplan.curr);
 
-	app.get('/monthplan/item',post_check('Y'));
+	app.get('/monthplan/item',post_check(['Y','G_Y']));
 	app.get('/monthplan/item',monthplan.item);
 
-	app.post('/monthplan/item/save',post_check('Y'));
+	app.post('/monthplan/item/save',post_check(['Y','G_Y']));
 	app.post('/monthplan/item/save',monthplan.save_item);
 
-	app.post('/monthplan/item/delete',post_check('Y'));
+	app.post('/monthplan/item/delete',post_check(['Y','G_Y']));
 	app.post('/monthplan/item/delete',monthplan.delete_item);
 
-	app.post('/monthplan/submit',post_check('Y'));
+	app.post('/monthplan/submit',post_check(['Y','G_Y']));
 	app.post('/monthplan/submit',monthplan.submit);
 
 	//总结
-	app.get('/monthplan/item_smy',post_check('Y'));
+	app.get('/monthplan/item_smy',post_check(['Y','G_Y']));
 	app.get('/monthplan/item_smy',monthplan.item_smy);
 
-	app.post('/monthplan/item_smy/save',post_check('Y'));
+	app.post('/monthplan/item_smy/save',post_check(['Y','G_Y']));
 	app.post('/monthplan/item_smy/save',monthplan.save_item_smy);
 
-	app.post('/monthplan/item_smy/delete',post_check('Y'));
+	app.post('/monthplan/item_smy/delete',post_check(['Y','G_Y']));
 	app.post('/monthplan/item_smy/delete',monthplan.delete_item_smy);
 
-	app.post('/monthplan/finish',post_check('Y'));
+	app.post('/monthplan/finish',post_check(['Y','G_Y']));
 	app.post('/monthplan/finish',monthplan.finish);
 
 
 	//分管副总和部门经理审批
-	app.get('/work/todo',post_check(['G','Y']));
+	app.get('/work/todo',post_check(['G','Y','G_Y']));
 	app.get('/work/todo',work.todo);
 
-	app.get('/work/done',post_check(['G','Y']));
+	app.get('/work/done',post_check(['G','Y','G_Y']));
 	app.get('/work/done',work.done);
 
 	//部门经理审批
-	app.get('/monthsmy/:id/check',post_check(['Y']));
+	app.get('/monthsmy/check/list',post_check(['Y','G_Y']));
+	app.get('/monthsmy/check/list',monthsmy.check_list);
+
+	app.get('/monthsmy/check_one',post_check(['Y','G_Y']));
+	app.get('/monthsmy/check_one',monthsmy.check_one);
+
+	app.get('/monthsmy/history/list',post_check(['Y','G_Y']));
+	app.get('/monthsmy/history/list',monthsmy.history_list);
+
+	app.get('/monthsmy/history_one',post_check(['Y','G_Y']));
+	app.get('/monthsmy/history_one',monthsmy.history_one);
+
+	app.post('/monthsmy/:id/check_next',post_check(['Y','G_Y']));
+	app.post('/monthsmy/:id/check_next',monthsmy.check_next);
+
+	app.post('/monthsmy/:id/check_back',post_check(['Y','G_Y']));
+	app.post('/monthsmy/:id/check_back',monthsmy.check_back);
+
+
+	app.get('/monthsmy/:id/check',post_check(['Y','G_Y']));
 	app.get('/monthsmy/:id/check',monthsmy.check);
 
-	app.post('/monthsmy/:id/next',post_check(['Y']));
+	app.post('/monthsmy/:id/next',post_check(['Y','G_Y']));
 	app.post('/monthsmy/:id/next',monthsmy._next);
 
-	app.post('/monthsmy/:id/back',post_check(['Y']));
+	app.post('/monthsmy/:id/back',post_check(['Y','G_Y']));
 	app.post('/monthsmy/:id/back',monthsmy._back);
 
-	app.get('/monthplan/:id/check',post_check(['G']));
+	//分管副总审批
+	app.get('/monthplan/check/list',post_check(['G','G_Y']));
+	app.get('/monthplan/check/list',monthplan.check_list);
+
+	app.get('/monthplan/check_one',post_check(['G','G_Y']));
+	app.get('/monthplan/check_one',monthplan.check_one);
+
+	app.get('/monthplan/history/list',post_check(['G','G_Y']));
+	app.get('/monthplan/history/list',monthplan.history_list);
+
+	app.get('/monthplan/history_one',post_check(['G','G_Y']));
+	app.get('/monthplan/history_one',monthplan.history_one);
+
+	app.post('/monthplan/:id/check_next',post_check(['G','G_Y']));
+	app.post('/monthplan/:id/check_next',monthplan.check_next);
+
+	app.post('/monthplan/:id/check_back',post_check(['G','G_Y']));
+	app.post('/monthplan/:id/check_back',monthplan.check_back);
+	
+	app.get('/monthplan/:id/check',post_check(['G','G_Y']));
 	app.get('/monthplan/:id/check',monthplan.check);
 
-	app.post('/monthplan/:id/next',post_check(['G']));
+	app.post('/monthplan/:id/next',post_check(['G','G_Y']));
 	app.post('/monthplan/:id/next',monthplan._next);
 
-	app.post('/monthplan/:id/back',post_check(['G']));
+	app.post('/monthplan/:id/back',post_check(['G','G_Y']));
 	app.post('/monthplan/:id/back',monthplan._back);
 
-
+	app.get('/frame/*',frame);
 };
+
+var person_G_Y=conf.person_G_Y;
+
+function is_special_person (person){
+	for (var i = person_G_Y.length - 1; i >= 0; i--) {
+		if(person_G_Y[i]===person.name){
+			return true;
+		}
+	};
+	return false;
+}
+
+function get_person_post(person){
+	if(is_special_person(person)){
+		return "G_Y";
+	}
+	return person.manage;
+}
 
 //职位判断函数
 var post_check=function(posts){
@@ -119,7 +177,7 @@ var post_check=function(posts){
 				return;
 			}
 			
-			var person_post=person.manage;
+			var person_post=get_person_post(person);
 			if(is_person_post_in_posts(person_post)){
 				req.pa.person=person;
 				req.pa.person_post=person_post;

@@ -36,7 +36,7 @@ function deal_with_y_type(req,res){
 	],function (err, dept) {
 		monthplan_service.curr_monthplan(req.models,dept,function(err,monthplan){
 			var fmt=monthplan.get_fmt();
-			fmt.url=util.format('/monthplan/curr?pa_id=%s',person.id);
+			fmt.url=util.format('/frame/monthplan/curr?pa_id=%s',person.id);
 			res.send(rt.package(true,fmt));
 		});
 	});
@@ -47,7 +47,7 @@ function deal_with_n_type(req,res){
 	var person=req.pa.person;
 	monthsmy_service.curr_monthsmy(req.models,person,function(err,monthsmy){
 		var fmt=monthsmy.get_fmt();
-		fmt.url=util.format('/monthsmy/curr?pa_id=%s',person.id);
+		fmt.url=util.format('/frame/monthsmy/curr?pa_id=%s',person.id);
 		res.send(rt.package(true,fmt));
 	});	
 }
