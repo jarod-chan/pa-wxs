@@ -55,10 +55,10 @@
 			});
 
 
-			$(".context_li").click(function(){
+			$(".context_li").tap(function(){
 				goto('/monthplan/item_smy?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}),'_self');
 			});
-			$(".btns_delete").click(function(event){
+			$(".btns_delete").tap(function(event){
 				event.stopPropagation();//防止事件冒泡
 
 				$("#contain_body").hide();
@@ -66,11 +66,11 @@
 					goto('/monthplan/curr?pa_id=<%=pa_id%>');
 				})
 			});
-			$("#btn_add").click(function(){
+			$("#btn_add").tap(function(){
 				goto('/monthplan/item_smy?'+$.param({pa_id:<%=pa_id%>,plan_id:<%= plan.id%>}),'_self');
 			});
 
-			$("#btn_commit").click(function(){
+			$("#btn_commit").tap(function(){
 				$("#contain_body").hide();
 				$.post("/monthplan/finish?"+$.param({pa_id:<%=pa_id%>}),{id:'<%=plan.id %>'},showMsg,'json');
 			});

@@ -138,7 +138,6 @@ exports.add_monthsmy=function(models,monthsmy,callback){
 	delete monthsmy["get_state"];
 	delete monthsmy["get_fmt"];
 	monthsmy.state='SAVED';
-	monthsmy.createtime=new Date();
 	Monthsmy.create(monthsmy,function(err,smy){
 		if(err) callback(err);
 		callback(null,smy);

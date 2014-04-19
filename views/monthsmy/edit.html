@@ -41,10 +41,10 @@
 			$(this).find(".div_delete").hide();
 		});
 
-		$(".context_li").click(function(){
+		$(".context_li").tap(function(){
 			goto('/monthsmy/item?'+$.param({pa_id:<%=pa_id%>,item_id:$(this).data("id")}) );
 		});
-		$(".btns_delete").click(function(event){
+		$(".btns_delete").tap(function(event){
 			event.stopPropagation();//防止事件冒泡
 			
 			$("#contain_body").hide();
@@ -53,11 +53,11 @@
 			})
 				
 		});
-		$("#btn_add").click(function(){
+		$("#btn_add").tap(function(){
 			goto('/monthsmy/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,smy_id:'<%=smy.id%>'}) );
 		});
 
-		$("#btn_commit").click(function(){
+		$("#btn_commit").tap(function(){
 			$("#contain_body").hide();
 			$.post("/monthsmy/submit?"+$.param({pa_id:<%=pa_id%>}),{id:'<%=smy.id %>'},showMsg,'json');
 		});

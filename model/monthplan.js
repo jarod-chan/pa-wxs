@@ -14,8 +14,7 @@ exports.bind=function (db,models){
 		year:Number,
 		month:Number,
 		department_id:Number,
-		state:['NEW','SAVED','SUBMITTED','EXECUTE','FINISHED'], //NEW-"新建" SAVED-"暂存" SUBMITTED-"已提交" EXECUTE-"执行中" FINISHED-"已完成"
-		createtime:Date
+		state:['NEW','SAVED','SUBMITTED','EXECUTE','FINISHED']//NEW-"新建" SAVED-"暂存" SUBMITTED-"已提交" EXECUTE-"执行中" FINISHED-"已完成"
 	},{
         methods: {
             get_state: help.get_state,

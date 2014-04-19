@@ -4,8 +4,8 @@ var rt = require("../common/result.js")
 
 //微信最多显示数据限制
 var num_limit={
-	ret_num:9,//数据库返回条数
-	max_num:8,//最多显示条数
+	ret_num:8,//数据库返回条数
+	max_num:7,//最多显示条数
 	deal_len:function(data_arr){
 		if(data_arr.length>this.max_num){
 			return {len:this.max_num,more:true}
@@ -54,6 +54,8 @@ function deal_with_y_type(req,res){
 }
 
 function deal_with_g_type(req,res){
+	var person=req.pa.person;
+	
 	get_plans(req,function(err,datas){
 		var nl=num_limit.deal_len(datas);
 		datas=datas.slice(0,nl.len);

@@ -13,6 +13,9 @@ exports.menu=function(req,res){
 		case 'N':
 			deal_with_n_type(req,res);
 			break;
+		case 'G_Y':
+			deal_with_y_type(req,res);//跟部门经理相同处理
+			break;
 		default:
 			res.send(rt.package(false,'你无权限进行该操作！'));
 	}

@@ -37,8 +37,19 @@ ul.tabnav li{
 
 <div class="tabdiv" >
 	<ul class="tabnav">
-		<li><a href="/monthsmy/check/list?pa_id=<%=pa_id%>" <%if(active=="one"){%> class="active" <%}%> ><h3>员工月度总结</h3></a></li>
+		<li><a  id="btn_one" <%if(active=="one"){%> class="active" <%}%> ><h3>员工月度总结</h3></a></li>
 
-		<li><a href="/monthplan/check/list?pa_id=<%=pa_id%>"<%if(active=="two"){%> class="active" <%}%> ><h3>部门月度计划</h3></a></li>
+		<li><a  id="btn_two" <%if(active=="two"){%> class="active" <%}%> ><h3>部门月度计划</h3></a></li>
 	</ul>
 </div>
+
+<script type="text/javascript">
+	$(function(){
+		$("#btn_one").tap(function(){
+			goto('/monthsmy/check/list?pa_id=<%=pa_id%>')
+		})
+		$("#btn_two").tap(function(){
+			goto('/monthplan/check/list?pa_id=<%=pa_id%>')
+		})
+	})
+</script>

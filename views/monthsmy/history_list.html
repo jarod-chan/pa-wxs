@@ -28,15 +28,15 @@
 <script type="text/javascript">
 	$(function(){
 
-		$(".context_li").click(function(){
+		$(".context_li").tap(function(){
 			goto('/monthsmy/history_one?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id"),page_numb:<%=page.curr%>}));
 		});
 		
-		$("#btn_prev").click(function(){
+		$("#btn_prev").tap(function(){
 			goto('/monthsmy/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.prev%>}));
 		});
 
-		$("#btn_next").click(function(){
+		$("#btn_next").tap(function(){
 			goto('/monthsmy/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.next%>}));
 		});
 

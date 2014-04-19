@@ -4,8 +4,8 @@ var rt = require("../common/result.js")
 
 //微信最多显示数据限制
 var num_limit={
-	ret_num:9,//数据库返回条数
-	max_num:8,//最多显示条数
+	ret_num:8,//数据库返回条数
+	max_num:7,//最多显示条数
 	deal_len:function(data_arr){
 		if(data_arr.length>this.max_num){
 			return {len:this.max_num,more:true}
@@ -142,7 +142,8 @@ function find_smys(req,callback){
 		function(err,person_ids){
 			var Monthsmy=req.models.Monthsmy;
 			Monthsmy.find({state:'SUBMITTED',person_id:person_ids})
-				.order("-createtime")
+				.order("-year")
+				.order("-month")
 				.order("person_id")
 				.limit(num_limit.ret_num)
 				.run(this);
@@ -178,7 +179,8 @@ function find_plans(req,callback){
 		function(err,detp_ids){
 			var Plan=req.models.Monthplan;
 			Plan.find({state:'SUBMITTED',department_id:detp_ids})
-				.order("-createtime")
+				.order("-year")
+				.order("-month")
 				.order("department_id")
 				.limit(num_limit.ret_num)
 				.run(this);

@@ -1,5 +1,6 @@
 var rt = require("../common/result.js")
 	,msg=require("../common/msg.js")
+	,common=require("./common.js")
 	,monthsmy_service=require('../../service/monthsmy_service')
 	,util=require('util')
 	,step=require('step');
@@ -66,59 +67,17 @@ exports.check_one=function(req,res){
 }
 
 exports._next=function(req,res){
-	var person=req.pa.person;
-	var smy_id=req.params.id;
-	var ids=req.body.id;
-	var points=req.body.point;
-	step(
-		function(){
-			var Msitem=req.models.Msitem;
-			var group = this.group();
-			for (var i=0,len=ids.length;i<len;i++) {
-				Msitem.get(ids[i],group());
-			};
-		},
-		function(err,items){
-			var group =this.group();
-			for(var i=0,len=items.length;i<len;i++){
-				items[i].point=points[i];
-				items[i].save(group());
-			}
-		},
-		function(err){
-			var Monthsmy=req.models.Monthsmy;
-			Monthsmy.get(smy_id,this);
-		},
-		function(err,monthsmy){
-			monthsmy.state='FINISHED';
-			monthsmy.save(this);
-		},
-		function(err){
-			if(err) console.info(err);
-			req.cache_pa.msg(msg.create(true,'月度工作小结已通过'));
-			res.send(true);
-		}
-	);
-	
+	common._next(req,function(err){
+		if(err) console.info(err);
+		req.cache_pa.msg(msg.create(true,'月度工作小结已通过'));
+		res.send(true);
+	});
 }
 
 exports._back=function(req,res){
-	var person=req.pa.person;
-	var smy_id=req.params.id;
-	step(
-		function(){
-			var Monthsmy=req.models.Monthsmy;
-			Monthsmy.get(smy_id,this);
-		},
-		function(err,monthsmy){
-			monthsmy.state='SAVED';
-			monthsmy.save(this);
-		},
-		function(err){
+	common._back(req,function(err){
 			if(err) console.info(err);
 			req.cache_pa.msg(msg.create(true,'月度工作小结已打回'));
 			res.send(true);
-		}
-	);
-	
+	});	
 }

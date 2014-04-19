@@ -32,12 +32,12 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#btn_next").click(function(){
+		$("#btn_next").tap(function(){
 			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/next?pa_id=<%= pa_id %>",showMsg);
 		});
 
-		$("#btn_back").click(function(){
+		$("#btn_back").tap(function(){
 			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/back?pa_id=<%= pa_id %>",showMsg);
 		});

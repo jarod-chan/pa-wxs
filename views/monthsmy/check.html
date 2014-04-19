@@ -47,7 +47,7 @@
 
 <script type="text/javascript">
 	$(function(){
-		$(".select_ui li").click(function(event){
+		$(".select_ui li").tap(function(event){
 			event.stopPropagation();//防止事件冒泡
 			var li=$(this);
 			var sel_val=li.parents(".context_li").find(".sel_val");
@@ -58,19 +58,19 @@
 			li.parents(".ct_select").hide(500);
 		})
 
-		$(".context_li").click(function(){
+		$(".context_li").tap(function(){
 			var ct_select=$(this).find(".ct_select");
 			if(ct_select.is(":hidden")){
 				ct_select.show(500);
 			}
 		})
 
-		$("#btn_next").click(function(){
+		$("#btn_next").tap(function(){
 			$("#contain_body").hide();
 			$.post("/monthsmy/<%= smy.id %>/next?pa_id=<%= pa_id %>",$('form').serialize(),showMsg,'json');
 		});
 
-		$("#btn_back").click(function(){
+		$("#btn_back").tap(function(){
 			$("#contain_body").hide();
 			$.post("/monthsmy/<%= smy.id %>/back?pa_id=<%= pa_id %>",showMsg);
 		});

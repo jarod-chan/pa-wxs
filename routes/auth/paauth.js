@@ -1,7 +1,7 @@
 var rt = require("../common/result.js");
 
 exports.bind=function(req,res){
-	res.render('auth/bind');
+	res.render('bind/bind');
 }
 
 exports.do_auth=function(req,res){

@@ -127,7 +127,6 @@ exports.add_monthplan=function(models,montplan,callback){
 		function(err,fmp){
 			montplan.id=fmp.id;
 			montplan.state='SAVED';
-			montplan.createtime=new Date();
 			Plan.create(montplan,this);
 		},
 		function(err,saved_plan){
