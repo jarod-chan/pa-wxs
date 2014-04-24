@@ -62,10 +62,10 @@
 					goto('/monthplan/curr?pa_id=<%=pa_id%>');
 				})
 			});
-			$("#btn_add").tap(function(){
+			$("#btn_add").click(function(){
 				goto('/monthplan/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,plan_id:'<%=plan.id%>'}));
 			});
-			$("#btn_commit").tap(function(){
+			$("#btn_commit").click(function(){
 				$("#contain_body").hide();
 				$.post("/monthplan/submit?"+$.param({pa_id:<%=pa_id%>}),{plan_id:'<%=plan.id %>'},showMsg,'json');
 			});

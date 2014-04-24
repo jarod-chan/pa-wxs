@@ -37,21 +37,21 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#btn_next").tap(function(){
+		$("#btn_next").click(function(){
 			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/check_next?pa_id=<%= pa_id %>",function(){
 				goto('/monthplan/check/list?pa_id=<%= pa_id %>');
 			});
 		});
 
-		$("#btn_back").tap(function(){
+		$("#btn_back").click(function(){
 			$("#contain_body").hide();
 			$.post("/monthplan/<%= plan.id %>/check_back?pa_id=<%= pa_id %>",function(){
 				goto('/monthplan/check/list?pa_id=<%= pa_id %>');
 			});
 		});
 
-		$("#btn_return").tap(function(){
+		$("#btn_return").click(function(){
 			$("#contain_body").hide();
 			goto('/monthplan/check/list?pa_id=<%= pa_id %>');
 		});

@@ -41,7 +41,7 @@
 <script type="text/javascript">
 	$(function(){
 
-		$("#btn_return").tap(function(){
+		$("#btn_return").click(function(){
 			$("#contain_body").hide();
 			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page_numb%>}));
 		});

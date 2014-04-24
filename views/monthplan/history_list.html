@@ -33,11 +33,11 @@
 			goto('/monthplan/history_one?'+$.param({pa_id:<%=pa_id%>,id:$(this).data("id"),page_numb:<%=page.curr%>}));
 		});
 		
-		$("#btn_prev").tap(function(){
+		$("#btn_prev").click(function(){
 			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.prev%>}));
 		});
 
-		$("#btn_next").tap(function(){
+		$("#btn_next").click(function(){
 			goto('/monthplan/history/list?'+$.param({pa_id:<%=pa_id%>,page_numb:<%=page.next%>}));
 		});
 	});

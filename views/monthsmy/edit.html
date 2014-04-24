@@ -53,11 +53,11 @@
 			})
 				
 		});
-		$("#btn_add").tap(function(){
+		$("#btn_add").click(function(){
 			goto('/monthsmy/item?'+$.param({pa_id:<%=pa_id%>,item_id:-1,smy_id:'<%=smy.id%>'}) );
 		});
 
-		$("#btn_commit").tap(function(){
+		$("#btn_commit").click(function(){
 			$("#contain_body").hide();
 			$.post("/monthsmy/submit?"+$.param({pa_id:<%=pa_id%>}),{id:'<%=smy.id %>'},showMsg,'json');
 		});
