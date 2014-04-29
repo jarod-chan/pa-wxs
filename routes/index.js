@@ -5,12 +5,15 @@ var rt = require('./common/result')
 	,func=require('./func/func')
 	,work=require('./work')
 	,frame=require('./frame')
+	,help=require('./help')
 	,conf=require('../conf/conf.js');
 
 
 module.exports = function(app) {
     app.get('/bind', auth.bind);
 	app.post('/auth',auth.do_auth);
+
+	app.get('/help',help.help);
 
 	app.get('/func',post_check(['Y','N','G_Y']));
 	app.get('/func',func.menu);
